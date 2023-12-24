@@ -7,36 +7,12 @@
     <title>Todo List</title>
   </head>
   <body>
-    <header class="header">
-      <h2>Todos</h2>
-    </header>
-    <div id="app">
-      <div id="search-container" class="search-container">
-        <input
-          type="text"
-          id="search-input"
-          class="input"
-          placeholder="search..."
-        />
-      </div>
-      <div id="controls" class="controls">
-        <input
-          type="text"
-          id="task-input"
-          class="input"
-          placeholder="Add task..."
-        />
-        <button id="add-task" class="btn btn-add">New Task</button>
-      </div>
-      <div id="task-list">
-        <!-- <div class="task-item">
-          <label class="form-control">
-            <input type="checkbox" name="checkbox-checked" checked />
-            <div class="task-item-value">Try something new</div>
-          </label>
-        </div> -->
-      </div>
+    <div>
+      <input type="text" id="addTodoInput" placeholder="Enter todo" />
+      <button id="addTodoButton">Add Todo</button>
     </div>
-    <script type="module" src="/src/main.ts"></script>
+    <ul id="todo-list"></ul>
+
+    <script type="module" src="src/main.ts"></script>
   </body>
 </html>
