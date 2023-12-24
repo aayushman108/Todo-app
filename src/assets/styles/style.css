@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  border: 2px solid black;
+  width: 70%;
+  margin: 10px auto;
+  padding: 0.5em 0.8em;
+}
+
+span {
+  display: inline-block;
+  width: 90%;
+  margin-left: 10px;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+}
+
+.bi {
+  margin-left: 10px;
+  font-size: 20px;
+}

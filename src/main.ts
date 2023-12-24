@@ -4,42 +4,7 @@ const todoList = new TodoList();
 
 function showAll() {
   todoList.render("todo");
-  // toggleVisibility("todoList", true);
-  // toggleVisibility("favoriteList", false);
-  // toggleVisibility("completedList", false);
-  // toggleVisibility("incompleteList", false);
 }
-
-function showFavorites() {
-  todoList.render("favorite");
-  // toggleVisibility("todoList", false);
-  // toggleVisibility("favoriteList", true);
-  // toggleVisibility("completedList", false);
-  // toggleVisibility("incompleteList", false);
-}
-
-function showCompleted() {
-  todoList.render("completed");
-  // toggleVisibility("todoList", false);
-  // toggleVisibility("favoriteList", false);
-  // toggleVisibility("completedList", true);
-  // toggleVisibility("incompleteList", false);
-}
-
-function showIncomplete() {
-  todoList.render("incomplete");
-  // toggleVisibility("todoList", false);
-  // toggleVisibility("favoriteList", false);
-  // toggleVisibility("completedList", false);
-  // toggleVisibility("incompleteList", true);
-}
-
-// function toggleVisibility(elementId: string, isVisible: boolean) {
-//   const element = document.getElementById(elementId);
-//   if (element) {
-//     element.style.display = isVisible ? "block" : "none";
-//   }
-// }
 
 document.addEventListener("DOMContentLoaded", () => {
   const addTodoInput = document.getElementById(
@@ -51,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const showFavoritesButton = document.getElementById("showFavoritesButton");
   const showCompletedButton = document.getElementById("showCompletedButton");
   const showIncompleteButton = document.getElementById("showIncompleteButton");
-  const searchButton = document.getElementById("searchButton");
 
   const searchInput = document.getElementById(
     "searchInput"
@@ -64,30 +28,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  searchButton?.addEventListener("click", () => {
-    if (searchInput.value.trim() !== "") {
-      todoList.search(searchInput.value);
+  addTodoInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && addTodoInput.value.trim() !== "") {
+      todoList.addItem(addTodoInput.value);
+      addTodoInput.value = "";
     }
   });
 
   searchInput?.addEventListener("input", () => {
-    todoList.searchDropdown(searchInput.value);
+    todoList.search(searchInput.value);
   });
 
   if (showAllButton) {
-    showAllButton.addEventListener("click", showAll);
+    showAllButton.addEventListener("click", () => todoList.render("todo"));
   }
 
   if (showFavoritesButton) {
-    showFavoritesButton.addEventListener("click", showFavorites);
+    showFavoritesButton.addEventListener("click", () =>
+      todoList.render("favorite")
+    );
   }
 
   if (showCompletedButton) {
-    showCompletedButton.addEventListener("click", showCompleted);
+    showCompletedButton.addEventListener("click", () =>
+      todoList.render("completed")
+    );
   }
 
   if (showIncompleteButton) {
-    showIncompleteButton.addEventListener("click", showIncomplete);
+    showIncompleteButton.addEventListener("click", () =>
+      todoList.render("incomplete")
+    );
   }
 
   showAll();

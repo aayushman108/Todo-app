@@ -13,7 +13,6 @@ export interface ITodoList {
   saveToLocalStorage(): void;
   loadFromLocalStorage(): void;
   search(query: string): void;
-  searchDropdown(query: string): void;
   display(): void;
   items: TodoItem[];
   filteredItems: TodoItem[];
@@ -73,13 +72,21 @@ export class TodoList implements ITodoList {
   }
 
   saveToLocalStorage(): void {
-    localStorage.setItem("todoItems", JSON.stringify(this.items));
+    try {
+      localStorage.setItem("todoItems", JSON.stringify(this.items));
+    } catch (error) {
+      console.error("Error saving to local storage:", error);
+    }
   }
 
   loadFromLocalStorage(): void {
-    const storedItems = localStorage.getItem("todoItems");
-    if (storedItems) {
-      this.items = JSON.parse(storedItems);
+    try {
+      const storedItems = localStorage.getItem("todoItems");
+      if (storedItems) {
+        this.items = JSON.parse(storedItems);
+      }
+    } catch (error) {
+      console.error("Error loading from local storage:", error);
     }
   }
 
@@ -114,23 +121,6 @@ export class TodoList implements ITodoList {
     }
   }
 
-  searchDropdown(query: string): void {
-    const dropdown = document.getElementById("autocompleteDropdown");
-    console.log(dropdown);
-    if (dropdown) {
-      dropdown.innerHTML = "";
-      const searchTerm = query.trim().toLowerCase();
-      this.filteredItems = this.items.filter((item) =>
-        item.text.toLowerCase().includes(searchTerm)
-      );
-      this.filteredItems.forEach((item) => {
-        const option = document.createElement("option");
-        option.value = item.text;
-        dropdown.appendChild(option);
-      });
-    }
-  }
-
   render(
     type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
   ): void {
@@ -161,15 +151,17 @@ export class TodoList implements ITodoList {
   private createListItem(item: TodoItem): HTMLLIElement {
     const listItem = document.createElement("li");
 
-    const toggleButton = document.createElement("button");
+    const completeButton = document.createElement("button");
     const iconElementComplete = document.createElement("i");
     iconElementComplete.classList.add(
       "bi",
       item.completed ? "bi-check-circle-fill" : "bi-circle"
     );
-    toggleButton.appendChild(iconElementComplete);
-    toggleButton.addEventListener("click", () => this.toggleComplete(item.id));
-    listItem.appendChild(toggleButton);
+    completeButton.appendChild(iconElementComplete);
+    completeButton.addEventListener("click", () =>
+      this.toggleComplete(item.id)
+    );
+    listItem.appendChild(completeButton);
 
     const textElement = document.createElement("span");
     textElement.textContent = item.text;
