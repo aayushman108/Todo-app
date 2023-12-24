@@ -14,9 +14,15 @@
     <div>
       <input type="text" id="addTodoInput" placeholder="Enter todo" />
       <button id="addTodoButton">Add Todo</button>
+      <button id="showAllButton">Show All Todos</button>
+      <button id="showFavoritesButton">Show Favorites</button>
+      <button id="showCompletedButton">Show Completed</button>
+      <button id="showIncompleteButton">Show Incomplete</button>
     </div>
-    <ul id="todo-list"></ul>
-
+    <ul id="todoList"></ul>
+    <ul id="favoriteList" style="display: none"></ul>
+    <ul id="completedList" style="display: none"></ul>
+    <ul id="incompleteList" style="display: none"></ul>
     <script type="module" src="src/main.ts"></script>
   </body>
 </html>
