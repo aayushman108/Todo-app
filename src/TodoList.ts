@@ -2,13 +2,15 @@ import { TodoItem } from "./TodoItem";
 
 export interface ITodoList {
   addItem(text: string): void;
-  toggleItem(id: number): void;
+  toggleComplete(id: number): void;
   toggleFavorite(id: number): void;
   removeItem(id: number): void;
   render(type: "todo" | "favorite" | "completed" | "incomplete"): void;
   getFavoriteItems(): TodoItem[];
   getCompletedItems(): TodoItem[];
   getIncompleteItems(): TodoItem[];
+  saveToLocalStorage(): void;
+  loadFromLocalStorage(): void;
   items: TodoItem[];
 }
 
@@ -17,19 +19,22 @@ export class TodoList implements ITodoList {
 
   constructor() {
     this.items = [];
+    this.loadFromLocalStorage();
   }
 
   addItem(text: string): void {
     const newItem = new TodoItem(this.items.length + 1, text, false);
     this.items.unshift(newItem);
+    this.saveToLocalStorage();
     this.render();
   }
 
-  toggleItem(id: number): void {
+  toggleComplete(id: number): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleCompletion();
       this.render();
+      this.saveToLocalStorage();
     }
   }
 
@@ -38,12 +43,14 @@ export class TodoList implements ITodoList {
     if (item) {
       item.toggleFavorite();
       this.render();
+      this.saveToLocalStorage();
     }
   }
 
   removeItem(id: number): void {
     this.items = this.items.filter((item) => item.id !== id);
     this.render();
+    this.saveToLocalStorage();
   }
 
   getFavoriteItems(): TodoItem[] {
@@ -56,6 +63,17 @@ export class TodoList implements ITodoList {
 
   getIncompleteItems(): TodoItem[] {
     return this.items.filter((item) => !item.completed);
+  }
+
+  saveToLocalStorage(): void {
+    localStorage.setItem("todoItems", JSON.stringify(this.items));
+  }
+
+  loadFromLocalStorage(): void {
+    const storedItems = localStorage.getItem("todoItems");
+    if (storedItems) {
+      this.items = JSON.parse(storedItems);
+    }
   }
 
   render(
@@ -93,7 +111,7 @@ export class TodoList implements ITodoList {
       item.completed ? "bi-check-circle-fill" : "bi-circle"
     );
     toggleButton.appendChild(iconElementComplete);
-    toggleButton.addEventListener("click", () => this.toggleItem(item.id));
+    toggleButton.addEventListener("click", () => this.toggleComplete(item.id));
     listItem.appendChild(toggleButton);
 
     const textElement = document.createElement("span");
