@@ -6,19 +6,26 @@ export interface ITodoList {
   toggleFavorite(id: number): void;
   removeItem(id: number): void;
   render(type: "todo" | "favorite" | "completed" | "incomplete"): void;
+  renderSearchResults(items: TodoItem[]): void;
   getFavoriteItems(): TodoItem[];
   getCompletedItems(): TodoItem[];
   getIncompleteItems(): TodoItem[];
   saveToLocalStorage(): void;
   loadFromLocalStorage(): void;
+  search(query: string): void;
+  searchDropdown(query: string): void;
+  display(): void;
   items: TodoItem[];
+  filteredItems: TodoItem[];
 }
 
 export class TodoList implements ITodoList {
   items: TodoItem[];
+  filteredItems: TodoItem[];
 
   constructor() {
     this.items = [];
+    this.filteredItems = [];
     this.loadFromLocalStorage();
   }
 
@@ -76,14 +83,64 @@ export class TodoList implements ITodoList {
     }
   }
 
+  display(): void {
+    const containers = document.getElementsByTagName("ul");
+    const containerArray = Array.from(containers);
+    containerArray.forEach((container) => {
+      container.style.display = "none";
+    });
+  }
+
+  search(query: string): void {
+    this.display();
+    const searchTerm = query.trim().toLowerCase();
+    this.filteredItems = this.items.filter((item) =>
+      item.text.toLowerCase().includes(searchTerm)
+    );
+    this.renderSearchResults(this.filteredItems);
+  }
+
+  renderSearchResults(items: TodoItem[]): void {
+    const searchResultsContainer = document.getElementById("searchResults");
+
+    if (searchResultsContainer) {
+      searchResultsContainer.style.display = "block";
+      searchResultsContainer.innerHTML = "";
+
+      items.forEach((item) => {
+        const listItem = this.createListItem(item);
+        searchResultsContainer.appendChild(listItem);
+      });
+    }
+  }
+
+  searchDropdown(query: string): void {
+    const dropdown = document.getElementById("autocompleteDropdown");
+    console.log(dropdown);
+    if (dropdown) {
+      dropdown.innerHTML = "";
+      const searchTerm = query.trim().toLowerCase();
+      this.filteredItems = this.items.filter((item) =>
+        item.text.toLowerCase().includes(searchTerm)
+      );
+      this.filteredItems.forEach((item) => {
+        const option = document.createElement("option");
+        option.value = item.text;
+        dropdown.appendChild(option);
+      });
+    }
+  }
+
   render(
     type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
   ): void {
+    this.display();
     const containerId = `${type}List`;
     const container = document.getElementById(containerId);
 
     if (container) {
       container.innerHTML = "";
+      container.style.display = "block";
 
       const itemsToRender =
         type === "favorite"

@@ -18,11 +18,18 @@
       <button id="showFavoritesButton">Show Favorites</button>
       <button id="showCompletedButton">Show Completed</button>
       <button id="showIncompleteButton">Show Incomplete</button>
+      <input type="text" id="searchInput" placeholder="Search" />
+      <button id="searchButton">search</button>
+      <datalist
+        id="autocompleteDropdown"
+        style="display: block; background-color: rgb(182, 134, 71)"
+      ></datalist>
     </div>
     <ul id="todoList"></ul>
     <ul id="favoriteList" style="display: none"></ul>
     <ul id="completedList" style="display: none"></ul>
     <ul id="incompleteList" style="display: none"></ul>
+    <ul id="searchResults" style="display: none"></ul>
     <script type="module" src="src/main.ts"></script>
   </body>
 </html>
