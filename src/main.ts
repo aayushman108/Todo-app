@@ -3,7 +3,7 @@ import { TodoList } from "./TodoList";
 const todoList = new TodoList();
 
 function showAll() {
-  todoList.render();
+  todoList.render("todo");
   toggleVisibility("todoList", true);
   toggleVisibility("favoriteList", false);
   toggleVisibility("completedList", false);
@@ -12,8 +12,7 @@ function showAll() {
 }
 
 function showFavorites() {
-  console.log("favourites");
-  todoList.renderFavorites();
+  todoList.render("favorite");
   toggleVisibility("todoList", false);
   toggleVisibility("favoriteList", true);
   toggleVisibility("completedList", false);
@@ -21,21 +20,19 @@ function showFavorites() {
 }
 
 function showCompleted() {
-  todoList.renderCompleted();
+  todoList.render("completed");
   toggleVisibility("todoList", false);
   toggleVisibility("favoriteList", false);
   toggleVisibility("completedList", true);
   toggleVisibility("incompleteList", false);
-  console.log("completed");
 }
 
 function showIncomplete() {
-  todoList.renderIncomplete();
+  todoList.render("incomplete");
   toggleVisibility("todoList", false);
   toggleVisibility("favoriteList", false);
   toggleVisibility("completedList", false);
   toggleVisibility("incompleteList", true);
-  console.log("Incomplete");
 }
 
 function toggleVisibility(elementId: string, isVisible: boolean) {

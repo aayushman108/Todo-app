@@ -5,13 +5,10 @@ export interface ITodoList {
   toggleItem(id: number): void;
   toggleFavorite(id: number): void;
   removeItem(id: number): void;
-  render(): void;
+  render(type: "todo" | "favorite" | "completed" | "incomplete"): void;
   getFavoriteItems(): TodoItem[];
   getCompletedItems(): TodoItem[];
   getIncompleteItems(): TodoItem[];
-  renderFavorites(): void;
-  renderCompleted(): void;
-  renderIncomplete(): void;
   items: TodoItem[];
 }
 
@@ -61,53 +58,27 @@ export class TodoList implements ITodoList {
     return this.items.filter((item) => !item.completed);
   }
 
-  render(): void {
-    const todoContainer = document.getElementById("todoList");
-    if (todoContainer) {
-      todoContainer.innerHTML = "";
+  render(
+    type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
+  ): void {
+    const containerId = `${type}List`;
+    const container = document.getElementById(containerId);
 
-      this.items.forEach((item) => {
+    if (container) {
+      container.innerHTML = "";
+
+      const itemsToRender =
+        type === "favorite"
+          ? this.getFavoriteItems()
+          : type === "completed"
+          ? this.getCompletedItems()
+          : type === "incomplete"
+          ? this.getIncompleteItems()
+          : this.items;
+
+      itemsToRender.forEach((item) => {
         const listItem = this.createListItem(item);
-        todoContainer.appendChild(listItem);
-      });
-    }
-  }
-
-  renderFavorites(): void {
-    const favoriteContainer = document.getElementById("favoriteList");
-    if (favoriteContainer) {
-      favoriteContainer.innerHTML = "";
-
-      const favoriteItems = this.getFavoriteItems();
-      favoriteItems.forEach((item) => {
-        const listItem = this.createListItem(item);
-        favoriteContainer.appendChild(listItem);
-      });
-    }
-  }
-
-  renderCompleted(): void {
-    const completedContainer = document.getElementById("completedList");
-    if (completedContainer) {
-      completedContainer.innerHTML = "";
-
-      const completedItems = this.getCompletedItems();
-      completedItems.forEach((item) => {
-        const listItem = this.createListItem(item);
-        completedContainer.appendChild(listItem);
-      });
-    }
-  }
-
-  renderIncomplete(): void {
-    const incompleteContainer = document.getElementById("incompleteList");
-    if (incompleteContainer) {
-      incompleteContainer.innerHTML = "";
-
-      const incompleteItems = this.getIncompleteItems();
-      incompleteItems.forEach((item) => {
-        const listItem = this.createListItem(item);
-        incompleteContainer.appendChild(listItem);
+        container.appendChild(listItem);
       });
     }
   }
