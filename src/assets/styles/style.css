@@ -4,21 +4,12 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: beige;
+}
+
 ul {
   list-style: none;
-}
-
-li {
-  border: 2px solid black;
-  width: 70%;
-  margin: 10px auto;
-  padding: 0.5em 0.8em;
-}
-
-span {
-  display: inline-block;
-  width: 90%;
-  margin-left: 10px;
 }
 
 button {
@@ -27,6 +18,101 @@ button {
 }
 
 .bi {
-  margin-left: 10px;
   font-size: 20px;
+}
+
+header {
+  width: 100%;
+  background-color: aquamarine;
+  padding: 20px 0;
+  margin-bottom: 25px;
+}
+.search-section {
+  width: 80%;
+  margin: 20px auto 0;
+}
+
+input[id="searchInput"] {
+  border: 2px solid black;
+  width: 100%;
+  font-size: 16px;
+  padding: 0.7em 1em;
+  outline: none;
+  background: transparent;
+}
+
+.bi-plus {
+  font-size: 24px;
+}
+
+.navbar-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.nav-list button {
+  font-size: 18px;
+}
+
+.nav-list button:hover {
+  color: blue;
+}
+
+/* Main */
+main {
+  width: 100%;
+}
+
+.display-section {
+  height: 60vh;
+  overflow-y: auto;
+  width: 80%;
+  margin: 0 auto 25px;
+}
+.input-section {
+  width: 80%;
+  margin: 0 auto;
+}
+
+li {
+  border: 2px solid black;
+  padding: 0.5em 0.8em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+span {
+  display: inline-block;
+  line-height: 20px;
+  font-size: 18px;
+  width: 90%;
+}
+
+.input-container {
+  border: 2px solid black;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0 1em;
+}
+input[id="addTodoInput"] {
+  border: none;
+  font-size: 16px;
+  padding: 0.7em 0;
+  outline: none;
+  width: 95%;
+  background-color: transparent;
 }

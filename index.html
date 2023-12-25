@@ -12,20 +12,37 @@
     <title>Todo List</title>
   </head>
   <body>
-    <div>
-      <input type="text" id="addTodoInput" placeholder="Enter todo" />
-      <button id="addTodoButton">Add Todo</button>
-      <button id="showAllButton">Show All Todos</button>
-      <button id="showFavoritesButton">Show Favorites</button>
-      <button id="showCompletedButton">Show Completed</button>
-      <button id="showIncompleteButton">Show Incomplete</button>
-      <input type="text" id="searchInput" placeholder="Search" />
-    </div>
-    <ul id="todoList"></ul>
-    <ul id="favoriteList" style="display: none"></ul>
-    <ul id="completedList" style="display: none"></ul>
-    <ul id="incompleteList" style="display: none"></ul>
-    <ul id="searchResults" style="display: none"></ul>
+    <header>
+      <section class="navbar-section">
+        <h1 class="logo">Todo</h1>
+        <div class="nav-list">
+          <button id="showAllButton">All</button>
+          <button id="showFavoritesButton">Favorites</button>
+          <button id="showCompletedButton">Completed</button>
+          <button id="showIncompleteButton">Incomplete</button>
+        </div>
+      </section>
+      <section class="search-section">
+        <input type="text" id="searchInput" placeholder="Search" />
+      </section>
+    </header>
+
+    <main>
+      <section class="display-section">
+        <ul id="todoList"></ul>
+        <ul id="favoriteList" style="display: none"></ul>
+        <ul id="completedList" style="display: none"></ul>
+        <ul id="incompleteList" style="display: none"></ul>
+        <ul id="searchResults" style="display: none"></ul>
+      </section>
+      <section class="input-section">
+        <div class="input-container">
+          <input type="text" id="addTodoInput" placeholder="Enter todo" />
+          <button id="addTodoButton"><i class="bi bi-plus"></i></button>
+        </div>
+      </section>
+    </main>
+
     <script type="module" src="src/main.ts"></script>
   </body>
 </html>
