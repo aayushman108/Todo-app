@@ -50,6 +50,7 @@ export class TodoList implements ITodoList {
   ): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
+      console.log(item, "Hellow");
       item.toggleCompletion();
       this.render(type);
       this.saveToLocalStorage();
@@ -101,7 +102,16 @@ export class TodoList implements ITodoList {
     try {
       const storedItems = localStorage.getItem("todoItems");
       if (storedItems) {
-        this.items = JSON.parse(storedItems);
+        const items = JSON.parse(storedItems);
+
+        this.items = items.map((item: TodoItem) => {
+          return new TodoItem(
+            item.id,
+            item.text,
+            item.completed,
+            item.favorite
+          );
+        });
       }
     } catch (error) {
       console.error("Error loading from local storage:", error);
