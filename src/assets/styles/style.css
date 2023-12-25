@@ -15,10 +15,28 @@ ul {
 button {
   border: none;
   background-color: transparent;
+  cursor: pointer;
 }
 
 .bi {
   font-size: 20px;
+}
+
+.bi-trash {
+  color: rgb(4, 4, 150);
+}
+.bi-trash:hover {
+  color: rgb(188, 5, 5);
+}
+
+.bi-star-fill,
+.bi-star {
+  color: goldenrod;
+}
+
+.bi-check-circle-fill,
+.bi-circle {
+  color: rgb(4, 4, 150);
 }
 
 header {

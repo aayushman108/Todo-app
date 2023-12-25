@@ -26,6 +26,10 @@ export interface ITodoList {
   loadFromLocalStorage(): void;
   search(query: string): void;
   display(): void;
+  confirmDelete(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void;
   items: TodoItem[];
   filteredItems: TodoItem[];
 }
@@ -90,6 +94,17 @@ export class TodoList implements ITodoList {
     this.saveToLocalStorage();
   }
 
+  confirmDelete(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this item?"
+    );
+    if (isConfirmed) {
+      this.removeItem(id, type);
+    }
+  }
   getFavoriteItems(): TodoItem[] {
     return this.items.filter((item) => item.favorite);
   }
@@ -232,7 +247,7 @@ export class TodoList implements ITodoList {
     iconElementDelete.classList.add("bi", "bi-trash");
     removeButton.appendChild(iconElementDelete);
     removeButton.addEventListener("click", () =>
-      this.removeItem(item.id, type)
+      this.confirmDelete(item.id, type)
     );
     listItem.appendChild(removeButton);
 

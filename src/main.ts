@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addTodoInput = document.getElementById(
     "addTodoInput"
   ) as HTMLInputElement;
+  addTodoInput.focus();
 
   const addTodoButton = document.getElementById("addTodoButton");
   const showAllButton = document.getElementById("showAllButton");
