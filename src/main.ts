@@ -2,6 +2,8 @@ import { TodoList } from "./TodoList";
 
 const todoList = new TodoList();
 
+const activeArray: ("todo" | "favorite" | "completed" | "incomplete")[] = [];
+
 function showAll() {
   todoList.render("todo");
 }
@@ -38,19 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   addTodoButton?.addEventListener("click", () => {
     if (addTodoInput.value.trim() !== "") {
-      todoList.addItem(addTodoInput.value);
+      todoList.addItem(addTodoInput.value, activeArray[0]);
       addTodoInput.value = "";
     }
   });
 
   addTodoInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && addTodoInput.value.trim() !== "") {
-      todoList.addItem(addTodoInput.value);
+      todoList.addItem(addTodoInput.value, activeArray[0]);
       addTodoInput.value = "";
     }
   });
 
   searchInput?.addEventListener("input", () => {
+    makeButtonStyleInactive();
+    if (showAllButton) {
+      showAllButton.style.borderBottom = "5px solid blue";
+    }
     todoList.search(searchInput.value);
   });
 
@@ -58,6 +64,8 @@ document.addEventListener("DOMContentLoaded", () => {
     showAllButton.style.borderBottom = "5px solid blue";
     showAllButton.addEventListener("click", () => {
       todoList.render("todo");
+      activeArray.splice(0, activeArray.length);
+      activeArray.push("todo");
       makeButtonStyleInactive();
       showAllButton.style.borderBottom = "5px solid blue";
     });
@@ -66,6 +74,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (showFavoritesButton) {
     showFavoritesButton.addEventListener("click", () => {
       todoList.render("favorite");
+      activeArray.splice(0, activeArray.length);
+      activeArray.push("favorite");
       makeButtonStyleInactive();
       showFavoritesButton.style.borderBottom = "5px solid blue";
     });
@@ -74,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (showCompletedButton) {
     showCompletedButton.addEventListener("click", () => {
       todoList.render("completed");
+      activeArray.splice(0, activeArray.length);
+      activeArray.push("completed");
       makeButtonStyleInactive();
       showCompletedButton.style.borderBottom = "5px solid blue";
     });
@@ -82,6 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (showIncompleteButton) {
     showIncompleteButton.addEventListener("click", () => {
       todoList.render("incomplete");
+      activeArray.splice(0, activeArray.length);
+      activeArray.push("incomplete");
       makeButtonStyleInactive();
       showIncompleteButton.style.borderBottom = "5px solid blue";
     });

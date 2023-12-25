@@ -1,7 +1,10 @@
 import { TodoItem } from "./TodoItem";
 
 export interface ITodoList {
-  addItem(text: string): void;
+  addItem(
+    text: string,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void;
   toggleComplete(
     id: number,
     type: "todo" | "favorite" | "completed" | "incomplete"
@@ -37,11 +40,21 @@ export class TodoList implements ITodoList {
     this.loadFromLocalStorage();
   }
 
-  addItem(text: string): void {
-    const newItem = new TodoItem(this.items.length + 1, text, false);
+  addItem(
+    text: string,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void {
+    let newItem;
+    if (type === "completed") {
+      newItem = new TodoItem(this.items.length + 1, text, true, false);
+    } else if (type === "favorite") {
+      newItem = new TodoItem(this.items.length + 1, text, false, true);
+    } else {
+      newItem = new TodoItem(this.items.length + 1, text, false, false);
+    }
     this.items.unshift(newItem);
     this.saveToLocalStorage();
-    this.render();
+    this.render(type);
   }
 
   toggleComplete(
@@ -50,7 +63,6 @@ export class TodoList implements ITodoList {
   ): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
-      console.log(item, "Hellow");
       item.toggleCompletion();
       this.render(type);
       this.saveToLocalStorage();
