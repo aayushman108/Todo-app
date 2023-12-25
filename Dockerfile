@@ -5,7 +5,6 @@ FROM node:lts-alpine
 WORKDIR /usr/src/app
 
 # Copy configuration files
-# COPY package*.json ./
 COPY package.json ./
 COPY package-lock.json ./
 COPY tsconfig.json ./

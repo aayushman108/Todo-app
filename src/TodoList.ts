@@ -2,9 +2,18 @@ import { TodoItem } from "./TodoItem";
 
 export interface ITodoList {
   addItem(text: string): void;
-  toggleComplete(id: number): void;
-  toggleFavorite(id: number): void;
-  removeItem(id: number): void;
+  toggleComplete(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void;
+  toggleFavorite(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void;
+  removeItem(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void;
   render(type: "todo" | "favorite" | "completed" | "incomplete"): void;
   renderSearchResults(items: TodoItem[]): void;
   getFavoriteItems(): TodoItem[];
@@ -35,27 +44,36 @@ export class TodoList implements ITodoList {
     this.render();
   }
 
-  toggleComplete(id: number): void {
+  toggleComplete(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleCompletion();
-      this.render();
+      this.render(type);
       this.saveToLocalStorage();
     }
   }
 
-  toggleFavorite(id: number): void {
+  toggleFavorite(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleFavorite();
-      this.render();
+      this.render(type);
       this.saveToLocalStorage();
     }
   }
 
-  removeItem(id: number): void {
+  removeItem(
+    id: number,
+    type: "todo" | "favorite" | "completed" | "incomplete"
+  ): void {
     this.items = this.items.filter((item) => item.id !== id);
-    this.render();
+    this.render(type);
     this.saveToLocalStorage();
   }
 
@@ -142,13 +160,16 @@ export class TodoList implements ITodoList {
           : this.items;
 
       itemsToRender.forEach((item) => {
-        const listItem = this.createListItem(item);
+        const listItem = this.createListItem(item, type);
         container.appendChild(listItem);
       });
     }
   }
 
-  private createListItem(item: TodoItem): HTMLLIElement {
+  private createListItem(
+    item: TodoItem,
+    type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
+  ): HTMLLIElement {
     const listItem = document.createElement("li");
 
     const completeButton = document.createElement("button");
@@ -159,13 +180,17 @@ export class TodoList implements ITodoList {
     );
     completeButton.appendChild(iconElementComplete);
     completeButton.addEventListener("click", () =>
-      this.toggleComplete(item.id)
+      this.toggleComplete(item.id, type)
     );
     listItem.appendChild(completeButton);
 
     const textElement = document.createElement("span");
     textElement.textContent = item.text;
-    listItem.className = item.completed ? "completed" : "";
+    listItem.className = item.completed
+      ? "completed"
+      : item.favorite
+      ? "favorite"
+      : "";
     listItem.appendChild(textElement);
 
     const favoriteButton = document.createElement("button");
@@ -176,7 +201,7 @@ export class TodoList implements ITodoList {
     );
     favoriteButton.appendChild(iconElementFavorite);
     favoriteButton.addEventListener("click", () =>
-      this.toggleFavorite(item.id)
+      this.toggleFavorite(item.id, type)
     );
     listItem.appendChild(favoriteButton);
 
@@ -184,7 +209,9 @@ export class TodoList implements ITodoList {
     const iconElementDelete = document.createElement("i");
     iconElementDelete.classList.add("bi", "bi-trash");
     removeButton.appendChild(iconElementDelete);
-    removeButton.addEventListener("click", () => this.removeItem(item.id));
+    removeButton.addEventListener("click", () =>
+      this.removeItem(item.id, type)
+    );
     listItem.appendChild(removeButton);
 
     return listItem;
