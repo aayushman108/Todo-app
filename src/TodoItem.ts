@@ -8,7 +8,7 @@ import { getRandomString } from "./utils";
 export interface ITodoItem {
   /**
    * The unique identifier of the todo item.
-   * @type {number}
+   * @type {string}
    */
   id: string;
 
@@ -56,7 +56,6 @@ export class TodoItem implements ITodoItem {
 
   /**
    * Constructor for the TodoItem class.
-   * @param {string} id - The unique identifier of the todo item.
    * @param {string} text - The text content of the todo item.
    * @param {boolean} completed - The completion status of the todo item. Default is false.
    * @param {boolean} favorite - The favorite status of the todo item. Default is false.
