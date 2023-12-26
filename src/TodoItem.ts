@@ -1,3 +1,6 @@
+import { ID_LENGTH } from "./constants";
+import { getRandomString } from "./utils";
+
 /**
  * Represents the structure of a Todo Item.
  * @interface
@@ -7,7 +10,7 @@ export interface ITodoItem {
    * The unique identifier of the todo item.
    * @type {number}
    */
-  id: number;
+  id: string;
 
   /**
    * The text content of the todo item.
@@ -46,25 +49,24 @@ export interface ITodoItem {
  * @implements {ITodoItem}
  */
 export class TodoItem implements ITodoItem {
-  id: number;
+  id: string;
   text: string;
   completed: boolean;
   favorite: boolean;
 
   /**
    * Constructor for the TodoItem class.
-   * @param {number} id - The unique identifier of the todo item.
+   * @param {string} id - The unique identifier of the todo item.
    * @param {string} text - The text content of the todo item.
    * @param {boolean} completed - The completion status of the todo item. Default is false.
    * @param {boolean} favorite - The favorite status of the todo item. Default is false.
    */
   constructor(
-    id: number,
     text: string,
     completed: boolean = false,
     favorite: boolean = false
   ) {
-    this.id = id;
+    this.id = getRandomString(ID_LENGTH);
     this.text = text;
     this.completed = completed;
     this.favorite = favorite;

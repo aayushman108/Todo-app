@@ -16,27 +16,27 @@ export interface ITodoList {
 
   /**
    * Toggles the completion status of an item in the todo list.
-   * @param {number} id - The ID of the item to toggle.
+   * @param {string} id - The ID of the item to toggle.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  toggleComplete(id: number, type: todoNav): void;
+  toggleComplete(id: string, type: todoNav): void;
 
   /**
    * Toggles the favorite status of an item in the todo list.
-   * @param {number} id - The ID of the item to toggle.
+   * @param {string} id - The ID of the item to toggle.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  toggleFavorite(id: number, type: todoNav): void;
+  toggleFavorite(id: string, type: todoNav): void;
 
   /**
    * Removes an item from the todo list.
-   * @param {number} id - The ID of the item to remove.
+   * @param {string} id - The ID of the item to remove.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  removeItem(id: number, type: todoNav): void;
+  removeItem(id: string, type: todoNav): void;
 
   /**
    * Renders the todo list based on the specified type.
@@ -97,11 +97,11 @@ export interface ITodoList {
 
   /**
    * Asks for confirmation before deleting an item from the todo list.
-   * @param {number} id - The ID of the item to delete.
+   * @param {string} id - The ID of the item to delete.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  confirmDelete(id: number, type: todoNav): void;
+  confirmDelete(id: string, type: todoNav): void;
 
   // Properties of the TodoList class
   items: TodoItem[];
@@ -145,11 +145,11 @@ export class TodoList implements ITodoList {
   addItem(text: string, type: todoNav): void {
     let newItem;
     if (type === "completed") {
-      newItem = new TodoItem(this.items.length + 1, text, true, false);
+      newItem = new TodoItem(text, true, false);
     } else if (type === "favorite") {
-      newItem = new TodoItem(this.items.length + 1, text, false, true);
+      newItem = new TodoItem(text, false, true);
     } else {
-      newItem = new TodoItem(this.items.length + 1, text, false, false);
+      newItem = new TodoItem(text, false, false);
     }
     this.items.unshift(newItem);
     this.saveToLocalStorage();
@@ -158,11 +158,11 @@ export class TodoList implements ITodoList {
 
   /**
    * Toggles the completion status of an item in the todo list.
-   * @param {number} id - The ID of the item to toggle.
+   * @param {string} id - The ID of the item to toggle.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  toggleComplete(id: number, type: todoNav): void {
+  toggleComplete(id: string, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleCompletion();
@@ -173,11 +173,11 @@ export class TodoList implements ITodoList {
 
   /**
    * Toggles the favorite status of an item in the todo list.
-   * @param {number} id - The ID of the item to toggle.
+   * @param {string} id - The ID of the item to toggle.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  toggleFavorite(id: number, type: todoNav): void {
+  toggleFavorite(id: string, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleFavorite();
@@ -188,11 +188,11 @@ export class TodoList implements ITodoList {
 
   /**
    * Removes an item from the todo list.
-   * @param {number} id - The ID of the item to remove.
+   * @param {string} id - The ID of the item to remove.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  removeItem(id: number, type: todoNav): void {
+  removeItem(id: string, type: todoNav): void {
     this.items = this.items.filter((item) => item.id !== id);
     this.render(type);
     this.saveToLocalStorage();
@@ -200,11 +200,11 @@ export class TodoList implements ITodoList {
 
   /**
    * Asks for confirmation before deleting an item from the todo list.
-   * @param {number} id - The ID of the item to delete.
+   * @param {string} id - The ID of the item to delete.
    * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
    * @returns {void}
    */
-  confirmDelete(id: number, type: todoNav): void {
+  confirmDelete(id: string, type: todoNav): void {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
     );
@@ -260,12 +260,7 @@ export class TodoList implements ITodoList {
         const items = JSON.parse(storedItems);
 
         this.items = items.map((item: TodoItem) => {
-          return new TodoItem(
-            item.id,
-            item.text,
-            item.completed,
-            item.favorite
-          );
+          return new TodoItem(item.text, item.completed, item.favorite);
         });
       }
     } catch (error) {
