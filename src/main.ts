@@ -1,8 +1,10 @@
 import { TodoList } from "./TodoList";
 
+export type todoNav = "todo" | "favorite" | "completed" | "incomplete";
+
 const todoList = new TodoList();
 
-const activeArray: ("todo" | "favorite" | "completed" | "incomplete")[] = [];
+const activeArray: todoNav[] = [];
 
 function showAll() {
   todoList.render("todo");
@@ -56,19 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput?.addEventListener("input", () => {
     makeButtonStyleInactive();
     if (showAllButton) {
-      showAllButton.style.borderBottom = "5px solid blue";
+      showAllButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     }
     todoList.search(searchInput.value);
   });
 
   if (showAllButton) {
-    showAllButton.style.borderBottom = "5px solid blue";
+    showAllButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     showAllButton.addEventListener("click", () => {
       todoList.render("todo");
       activeArray.splice(0, activeArray.length);
       activeArray.push("todo");
       makeButtonStyleInactive();
-      showAllButton.style.borderBottom = "5px solid blue";
+      showAllButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     });
   }
 
@@ -78,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activeArray.splice(0, activeArray.length);
       activeArray.push("favorite");
       makeButtonStyleInactive();
-      showFavoritesButton.style.borderBottom = "5px solid blue";
+      showFavoritesButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     });
   }
 
@@ -88,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activeArray.splice(0, activeArray.length);
       activeArray.push("completed");
       makeButtonStyleInactive();
-      showCompletedButton.style.borderBottom = "5px solid blue";
+      showCompletedButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     });
   }
 
@@ -98,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       activeArray.splice(0, activeArray.length);
       activeArray.push("incomplete");
       makeButtonStyleInactive();
-      showIncompleteButton.style.borderBottom = "5px solid blue";
+      showIncompleteButton.style.borderBottom = "5px solid rgb(4, 4, 150)";
     });
   }
 

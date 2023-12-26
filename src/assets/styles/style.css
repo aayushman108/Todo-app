@@ -5,7 +5,12 @@
 }
 
 body {
-  background-color: beige;
+  background-image: linear-gradient(#26a6fb, #036bd2);
+  height: 100vh;
+}
+
+input::placeholder {
+  color: rgb(40, 40, 40);
 }
 
 ul {
@@ -18,33 +23,19 @@ button {
   cursor: pointer;
 }
 
-.bi {
-  font-size: 20px;
-}
-
-.bi-trash {
-  color: rgb(4, 4, 150);
-}
-.bi-trash:hover {
-  color: rgb(188, 5, 5);
-}
-
-.bi-star-fill,
-.bi-star {
-  color: goldenrod;
-}
-
-.bi-check-circle-fill,
-.bi-circle {
-  color: rgb(4, 4, 150);
-}
-
+/* ...............header.................. */
 header {
   width: 100%;
-  background-color: aquamarine;
+  background-color: rgb(218, 235, 249);
   padding: 20px 0;
   margin-bottom: 25px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
+
+.logo {
+  color: rgb(4, 4, 150);
+}
+
 .search-section {
   width: 80%;
   margin: 20px auto 0;
@@ -57,10 +48,7 @@ input[id="searchInput"] {
   padding: 0.7em 1em;
   outline: none;
   background: transparent;
-}
-
-.bi-plus {
-  font-size: 24px;
+  border-radius: 5px;
 }
 
 .navbar-section {
@@ -83,10 +71,10 @@ input[id="searchInput"] {
 }
 
 .nav-list button:hover {
-  color: blue;
+  color: rgb(6, 6, 194);
 }
 
-/* Main */
+/* .............Main............... */
 main {
   width: 100%;
 }
@@ -110,6 +98,7 @@ li {
   justify-content: space-between;
   width: 100%;
   margin-bottom: 15px;
+  border-radius: 5px;
 }
 
 span {
@@ -125,6 +114,7 @@ span {
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 1em;
+  border-radius: 5px;
 }
 input[id="addTodoInput"] {
   border: none;
@@ -133,4 +123,45 @@ input[id="addTodoInput"] {
   outline: none;
   width: 95%;
   background-color: transparent;
+}
+
+/* ...........icons............ */
+.bi {
+  font-size: 20px;
+}
+
+.bi-trash:hover {
+  color: rgb(134, 4, 4);
+}
+
+.bi-star-fill,
+.bi-star:hover {
+  color: goldenrod;
+}
+
+.bi-check-circle-fill,
+.bi-circle:hover {
+  color: rgb(4, 4, 150);
+}
+
+.bi-plus {
+  font-size: 24px;
+}
+
+/* ...........scrollbar.............. */
+::-webkit-scrollbar {
+  width: 15px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #26a6fb; /* Set the background color of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #036bd2; /* Set the color of the thumb */
+  border-radius: 6px; /* Set the border radius of the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #045db7; /* Set the color of the thumb on hover */
 }

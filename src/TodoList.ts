@@ -1,23 +1,12 @@
 import { TodoItem } from "./TodoItem";
+import { todoNav } from "./main";
 
 export interface ITodoList {
-  addItem(
-    text: string,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void;
-  toggleComplete(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void;
-  toggleFavorite(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void;
-  removeItem(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void;
-  render(type: "todo" | "favorite" | "completed" | "incomplete"): void;
+  addItem(text: string, type: todoNav): void;
+  toggleComplete(id: number, type: todoNav): void;
+  toggleFavorite(id: number, type: todoNav): void;
+  removeItem(id: number, type: todoNav): void;
+  render(type: todoNav): void;
   renderSearchResults(items: TodoItem[]): void;
   getFavoriteItems(): TodoItem[];
   getCompletedItems(): TodoItem[];
@@ -26,10 +15,7 @@ export interface ITodoList {
   loadFromLocalStorage(): void;
   search(query: string): void;
   display(): void;
-  confirmDelete(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void;
+  confirmDelete(id: number, type: todoNav): void;
   items: TodoItem[];
   filteredItems: TodoItem[];
 }
@@ -44,10 +30,7 @@ export class TodoList implements ITodoList {
     this.loadFromLocalStorage();
   }
 
-  addItem(
-    text: string,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void {
+  addItem(text: string, type: todoNav): void {
     let newItem;
     if (type === "completed") {
       newItem = new TodoItem(this.items.length + 1, text, true, false);
@@ -61,10 +44,7 @@ export class TodoList implements ITodoList {
     this.render(type);
   }
 
-  toggleComplete(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void {
+  toggleComplete(id: number, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleCompletion();
@@ -73,10 +53,7 @@ export class TodoList implements ITodoList {
     }
   }
 
-  toggleFavorite(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void {
+  toggleFavorite(id: number, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
       item.toggleFavorite();
@@ -85,19 +62,13 @@ export class TodoList implements ITodoList {
     }
   }
 
-  removeItem(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void {
+  removeItem(id: number, type: todoNav): void {
     this.items = this.items.filter((item) => item.id !== id);
     this.render(type);
     this.saveToLocalStorage();
   }
 
-  confirmDelete(
-    id: number,
-    type: "todo" | "favorite" | "completed" | "incomplete"
-  ): void {
+  confirmDelete(id: number, type: todoNav): void {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
     );
@@ -176,9 +147,7 @@ export class TodoList implements ITodoList {
     }
   }
 
-  render(
-    type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
-  ): void {
+  render(type: todoNav = "todo"): void {
     this.display();
     const containerId = `${type}List`;
     const container = document.getElementById(containerId);
@@ -205,7 +174,7 @@ export class TodoList implements ITodoList {
 
   private createListItem(
     item: TodoItem,
-    type: "todo" | "favorite" | "completed" | "incomplete" = "todo"
+    type: todoNav = "todo"
   ): HTMLLIElement {
     const listItem = document.createElement("li");
 
