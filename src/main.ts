@@ -1,12 +1,28 @@
 import { TodoList } from "./TodoList";
 
+/**
+ * Represents the possible navigation states for the todo list.
+ * @type {"todo" | "favorite" | "completed" | "incomplete"}
+ */
 export type todoNav = "todo" | "favorite" | "completed" | "incomplete";
 
-const todoList = new TodoList();
+/**
+ * The TodoList instance.
+ * @type {TodoList}
+ */
+const todoList: TodoList = new TodoList();
 
+/**
+ * An array to store the active navigation states.
+ * @type {todoNav[]}
+ */
 const activeArray: todoNav[] = [];
 
-function showAll() {
+/**
+ * Displays all todo items.
+ * @returns {void}
+ */
+function showAll(): void {
   todoList.render("todo");
 }
 
@@ -14,13 +30,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const addTodoInput = document.getElementById(
     "addTodoInput"
   ) as HTMLInputElement;
-  addTodoInput.focus();
+  const searchInput = document.getElementById(
+    "searchInput"
+  ) as HTMLInputElement;
 
-  const addTodoButton = document.getElementById("addTodoButton");
-  const showAllButton = document.getElementById("showAllButton");
-  const showFavoritesButton = document.getElementById("showFavoritesButton");
-  const showCompletedButton = document.getElementById("showCompletedButton");
-  const showIncompleteButton = document.getElementById("showIncompleteButton");
+  const addTodoButton = document.getElementById(
+    "addTodoButton"
+  ) as HTMLButtonElement;
+  const showAllButton = document.getElementById(
+    "showAllButton"
+  ) as HTMLButtonElement;
+  const showFavoritesButton = document.getElementById(
+    "showFavoritesButton"
+  ) as HTMLButtonElement;
+  const showCompletedButton = document.getElementById(
+    "showCompletedButton"
+  ) as HTMLButtonElement;
+  const showIncompleteButton = document.getElementById(
+    "showIncompleteButton"
+  ) as HTMLButtonElement;
 
   const navButton = [
     showAllButton,
@@ -29,17 +57,17 @@ document.addEventListener("DOMContentLoaded", () => {
     showIncompleteButton,
   ];
 
-  const makeButtonStyleInactive = () => {
+  /**
+   * Styles all navigation buttons as inactive.
+   * @returns {void}
+   */
+  const makeButtonStyleInactive = (): void => {
     navButton.forEach((button) => {
       if (button) {
         button.style.border = "none";
       }
     });
   };
-
-  const searchInput = document.getElementById(
-    "searchInput"
-  ) as HTMLInputElement;
 
   addTodoButton?.addEventListener("click", () => {
     if (addTodoInput.value.trim() !== "") {
@@ -104,5 +132,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  addTodoInput.focus();
   showAll();
 });

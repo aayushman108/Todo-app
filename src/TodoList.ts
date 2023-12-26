@@ -1,35 +1,147 @@
 import { TodoItem } from "./TodoItem";
 import { todoNav } from "./main";
 
+/**
+ * Represents a todo list with various operations.
+ * @interface
+ */
 export interface ITodoList {
+  /**
+   * Adds a new item to the todo list.
+   * @param {string} text - The text of the new item.
+   * @param {todoNav} type - The type of the new item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   addItem(text: string, type: todoNav): void;
+
+  /**
+   * Toggles the completion status of an item in the todo list.
+   * @param {number} id - The ID of the item to toggle.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   toggleComplete(id: number, type: todoNav): void;
+
+  /**
+   * Toggles the favorite status of an item in the todo list.
+   * @param {number} id - The ID of the item to toggle.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   toggleFavorite(id: number, type: todoNav): void;
+
+  /**
+   * Removes an item from the todo list.
+   * @param {number} id - The ID of the item to remove.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   removeItem(id: number, type: todoNav): void;
+
+  /**
+   * Renders the todo list based on the specified type.
+   * @param {todoNav} type - The type of the todo list to render (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   render(type: todoNav): void;
+
+  /**
+   * Renders search results based on the provided items.
+   * @param {TodoItem[]} items - The items to display as search results.
+   * @returns {void}
+   */
   renderSearchResults(items: TodoItem[]): void;
-  getFavoriteItems(): TodoItem[];
-  getCompletedItems(): TodoItem[];
-  getIncompleteItems(): TodoItem[];
-  saveToLocalStorage(): void;
-  loadFromLocalStorage(): void;
+
+  /**
+   * Searches for items in the todo list based on the provided query.
+   * @param {string} query - The search query.
+   * @returns {void}
+   */
   search(query: string): void;
+
+  /**
+   * Retrieves all favorite items from the todo list.
+   * @returns {TodoItem[]} - An array of favorite TodoItems.
+   */
+  getFavoriteItems(): TodoItem[];
+
+  /**
+   * Retrieves all completed items from the todo list.
+   * @returns {TodoItem[]} - An array of completed TodoItems.
+   */
+  getCompletedItems(): TodoItem[];
+
+  /**
+   * Retrieves all incomplete items from the todo list.
+   * @returns {TodoItem[]} - An array of incomplete TodoItems.
+   */
+  getIncompleteItems(): TodoItem[];
+
+  /**
+   * Saves the todo list to local storage.
+   * @returns {void}
+   */
+  saveToLocalStorage(): void;
+
+  /**
+   * Loads the todo list from local storage.
+   * @returns {void}
+   */
+  loadFromLocalStorage(): void;
+
+  /**
+   * Hides all todo list containers.
+   * @returns {void}
+   */
   display(): void;
+
+  /**
+   * Asks for confirmation before deleting an item from the todo list.
+   * @param {number} id - The ID of the item to delete.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   confirmDelete(id: number, type: todoNav): void;
+
+  // Properties of the TodoList class
   items: TodoItem[];
   filteredItems: TodoItem[];
 }
 
+/**
+ * Implementation of the ITodoList interface representing a todo list.
+ * @class
+ * @implements {ITodoList}
+ */
 export class TodoList implements ITodoList {
+  /**
+   * The array of todo items in the list.
+   * @type {TodoItem[]}
+   */
   items: TodoItem[];
+
+  /**
+   * The array of filtered todo items based on search or type.
+   * @type {TodoItem[]}
+   */
   filteredItems: TodoItem[];
 
+  /**
+   * Constructor for the TodoList class.
+   * Initializes properties and loads data from local storage.
+   */
   constructor() {
     this.items = [];
     this.filteredItems = [];
     this.loadFromLocalStorage();
   }
 
+  /**
+   * Adds a new item to the todo list.
+   * @param {string} text - The text of the new item.
+   * @param {todoNav} type - The type of the new item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   addItem(text: string, type: todoNav): void {
     let newItem;
     if (type === "completed") {
@@ -44,6 +156,12 @@ export class TodoList implements ITodoList {
     this.render(type);
   }
 
+  /**
+   * Toggles the completion status of an item in the todo list.
+   * @param {number} id - The ID of the item to toggle.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   toggleComplete(id: number, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
@@ -53,6 +171,12 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Toggles the favorite status of an item in the todo list.
+   * @param {number} id - The ID of the item to toggle.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   toggleFavorite(id: number, type: todoNav): void {
     const item = this.items.find((item) => item.id === id);
     if (item) {
@@ -62,12 +186,24 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Removes an item from the todo list.
+   * @param {number} id - The ID of the item to remove.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   removeItem(id: number, type: todoNav): void {
     this.items = this.items.filter((item) => item.id !== id);
     this.render(type);
     this.saveToLocalStorage();
   }
 
+  /**
+   * Asks for confirmation before deleting an item from the todo list.
+   * @param {number} id - The ID of the item to delete.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   confirmDelete(id: number, type: todoNav): void {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this item?"
@@ -76,18 +212,35 @@ export class TodoList implements ITodoList {
       this.removeItem(id, type);
     }
   }
+
+  /**
+   * Retrieves all favorite items from the todo list.
+   * @returns {TodoItem[]} - An array of favorite TodoItems.
+   */
   getFavoriteItems(): TodoItem[] {
     return this.items.filter((item) => item.favorite);
   }
 
+  /**
+   * Retrieves all completed items from the todo list.
+   * @returns {TodoItem[]} - An array of completed TodoItems.
+   */
   getCompletedItems(): TodoItem[] {
     return this.items.filter((item) => item.completed);
   }
 
+  /**
+   * Retrieves all incomplete items from the todo list.
+   * @returns {TodoItem[]} - An array of incomplete TodoItems.
+   */
   getIncompleteItems(): TodoItem[] {
     return this.items.filter((item) => !item.completed);
   }
 
+  /**
+   * Saves the todo list to local storage.
+   * @returns {void}
+   */
   saveToLocalStorage(): void {
     try {
       localStorage.setItem("todoItems", JSON.stringify(this.items));
@@ -96,6 +249,10 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Loads the todo list from local storage.
+   * @returns {void}
+   */
   loadFromLocalStorage(): void {
     try {
       const storedItems = localStorage.getItem("todoItems");
@@ -116,6 +273,10 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Hides all todo list containers.
+   * @returns {void}
+   */
   display(): void {
     const containers = document.getElementsByTagName("ul");
     const containerArray = Array.from(containers);
@@ -124,6 +285,11 @@ export class TodoList implements ITodoList {
     });
   }
 
+  /**
+   * Searches for items in the todo list based on the provided query.
+   * @param {string} query - The search query.
+   * @returns {void}
+   */
   search(query: string): void {
     this.display();
     const searchTerm = query.trim().toLowerCase();
@@ -133,6 +299,11 @@ export class TodoList implements ITodoList {
     this.renderSearchResults(this.filteredItems);
   }
 
+  /**
+   * Renders search results based on the provided items.
+   * @param {TodoItem[]} items - The items to display as search results.
+   * @returns {void}
+   */
   renderSearchResults(items: TodoItem[]): void {
     const searchResultsContainer = document.getElementById("searchResults");
 
@@ -147,6 +318,11 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Renders the todo list based on the specified type.
+   * @param {todoNav} type - The type of the todo list to render (e.g., "completed", "favorite", "todo").
+   * @returns {void}
+   */
   render(type: todoNav = "todo"): void {
     this.display();
     const containerId = `${type}List`;
@@ -172,6 +348,12 @@ export class TodoList implements ITodoList {
     }
   }
 
+  /**
+   * Creates an HTML list item element for a todo item.
+   * @param {TodoItem} item - The todo item to create a list item for.
+   * @param {todoNav} type - The type of the item (e.g., "completed", "favorite", "todo").
+   * @returns {HTMLLIElement} - The created HTML list item element.
+   */
   private createListItem(
     item: TodoItem,
     type: todoNav = "todo"
